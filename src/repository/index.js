@@ -1,10 +1,10 @@
-// import CompetitorRepository from './competitorRepository';
+import CompetitorRepository from './competitorRepository.js';
 // import PricingRepository from './pricingRepository'
 // import ProductRepositoy from './productRepository'
 import UserRepository from './userRepository.js';
 
 export {
-    // CompetitorRepository,
+    CompetitorRepository,
     // PricingRepository,
     // ProductRepositoy,
     UserRepository,
