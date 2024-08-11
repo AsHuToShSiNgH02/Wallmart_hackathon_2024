@@ -40,6 +40,16 @@ class ProductService {
         // You can use competitor's data to calculate this
         return product.currentPrice; // Temporary placeholder
     }
+
+    async deleteProduct(id){
+        try {
+            const product = await this.productRepository.delete(id);
+            return product;
+        } catch (error) {
+            throw error
+        }
+        
+    }
 }
 
 export default ProductService;

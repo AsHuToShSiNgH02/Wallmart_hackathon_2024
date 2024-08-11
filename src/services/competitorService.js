@@ -22,6 +22,15 @@ class CompetitorService {
             throw error;
         }
     }
+
+    async deleteCompetitor(id) {
+        try {
+            const result = await this.competitorRepository.delete(id);
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default CompetitorService;
