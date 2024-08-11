@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
+import './jobs/priceUpdateJob.js';
+
 dotenv.config();
 
 import passport from 'passport';

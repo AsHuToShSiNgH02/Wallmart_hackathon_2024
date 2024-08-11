@@ -10,6 +10,10 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    optimalPrice: {
+        type:Number,
+        default: 100
+    },
     inventory: {
         type: String,
         required: true

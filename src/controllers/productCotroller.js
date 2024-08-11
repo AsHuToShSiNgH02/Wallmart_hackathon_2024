@@ -1,4 +1,7 @@
 import ProductService from "../services/productService.js";
+import Product from "../models/product.js";
+import scrapeCompetitorPrice from '../services/scrappingService.js'
+import calculateOptimalPrice from '../utils/algorithm.js'
 
 const productService = new ProductService();
 
@@ -96,6 +99,30 @@ export const deleteProduct = async (req, res) => {
         });
     }
 }
+
+export const generateOptimalPrice = async (req, res) => {
+    try {
+        const { productId } = req.params;
+        const product = await Product.findById(productId).populate('competitor');
+
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        console.log('in controller');
+        const competitorPrice = await scrapeCompetitorPrice(product.productUrlPage);
+        console.log(`competitor ${competitorPrice}`);
+        const optimalPrice = calculateOptimalPrice(product.currentPrice, competitorPrice, product.salesLastMonth);
+        console.log(`optimalPrice ${optimalPrice}`);
+
+        product.optimalPrice = optimalPrice;
+        await product.save();
+
+        res.status(200).json({ message: 'Optimal price calculated', optimalPrice });
+    } catch (error) {
+        console.error('Error generating optimal price:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
 
 
 
