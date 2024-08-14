@@ -8,7 +8,7 @@ export const signup = async (req, res) => {
         const response = await userService.signup({
             email: req.body.email,
             password: req.body.password,
-            name: req.body.name
+            fullname: req.body.fullname
         });
         return res.status(201).json({
             success: true,
