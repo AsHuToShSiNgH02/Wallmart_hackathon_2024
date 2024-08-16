@@ -2,6 +2,7 @@ import ProductService from "../services/productService.js";
 import Product from "../models/product.js";
 import scrapeCompetitorPrice from '../services/scrappingService.js'
 import calculateOptimalPrice from '../utils/algorithm.js'
+import mongoose from 'mongoose';
 
 const productService = new ProductService();
 
@@ -103,16 +104,23 @@ export const deleteProduct = async (req, res) => {
 export const generateOptimalPrice = async (req, res) => {
     try {
         const { productId } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(productId)) {
+            return res.status(400).json({ error: 'Invalid product ID' });
+        }
+
         const product = await Product.findById(productId).populate('competitor');
 
         if (!product) {
             return res.status(404).json({ error: 'Product not found' });
         }
-        console.log('in controller');
+        
+        
         const competitorPrice = await scrapeCompetitorPrice(product.productUrlPage);
-        console.log(`competitor ${competitorPrice}`);
-        const optimalPrice = calculateOptimalPrice(product.currentPrice, competitorPrice, product.salesLastMonth);
-        console.log(`optimalPrice ${optimalPrice}`);
+        const currentPrice = product.currentPrice;
+
+        const optimalPrice = calculateOptimalPrice(currentPrice, competitorPrice, product.salesLastMonth, product.inventory);
+
 
         product.optimalPrice = optimalPrice;
         await product.save();

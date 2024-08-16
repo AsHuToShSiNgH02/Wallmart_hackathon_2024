@@ -1,16 +1,19 @@
-const calculateOptimalPrice = (currentPrice, competitorPrice, salesLastMonth) => {
-    let compPrice = parseInt(competitorPrice);
-    let optimalPrice = currentPrice;
-    console.log('in utils');
-    console.log(`optimal price ${optimalPrice}`);
-    console.log(`competitor Price ${competitorPrice}`)
-    console.log(`currentPrice ${currentPrice}`);
-    if (compPrice < currentPrice) {
-        optimalPrice = compPrice - (0.05 * compPrice);
-        console.log(`inside block optimalPrice ${optimalPrice}`);
+function calculateOptimalPrice(currentPrice, competitorPrice, salesLastMonth, inventory) {
+
+    // Ensure the prices are numbers, no need for replace if they are already numbers
+    const compPrice = typeof competitorPrice === 'string' ? parseFloat(competitorPrice.replace(/[^0-9.-]+/g, "")) : competitorPrice;
+    const currPrice = typeof currentPrice === 'string' ? parseFloat(currentPrice.replace(/[^0-9.-]+/g, "")) : currentPrice;
+
+
+    let optimalPrice;
+    if (compPrice < currPrice) {
+        optimalPrice = compPrice - 1000;
+    } else {
+        optimalPrice = compPrice + 1400;
     }
 
     return optimalPrice;
 };
+
 
 export default calculateOptimalPrice;

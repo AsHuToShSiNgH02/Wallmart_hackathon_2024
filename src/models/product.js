@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema({
     },
     salesLastMonth: {
         type: Number,
-        default: 0
+        default: 1
     },
     productUrlPage: {
         type: String,
